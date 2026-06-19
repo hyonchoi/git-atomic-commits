@@ -1,3 +1,6 @@
+# Local development
+.claude-plugin/marketplace.json
+
 # Editor
 .DS_Store
 *.swp
