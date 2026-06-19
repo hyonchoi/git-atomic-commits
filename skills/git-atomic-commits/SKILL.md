@@ -107,7 +107,7 @@ Use `+` for added lines, `-` for removed lines, and plain text for context. Alwa
 
 If the user wants to adjust groupings, revise and re-propose. Do not proceed until the user explicitly confirms.
 
-### Step 3: Stage and commit each group
+### Step 4: Stage and commit each group
 
 Work through commits one at a time, in order.
 
@@ -193,7 +193,7 @@ git commit -m "<commit message from the proposal>"
 
 Repeat for each proposed group.
 
-### Step 4: Verify
+### Step 5: Verify
 
 After all commits:
 ```bash
