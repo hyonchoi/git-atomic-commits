@@ -1,0 +1,16 @@
+{
+  "name": "git-atomic-commits",
+  "version": "1.0.0",
+  "description": "Stage and commit git changes atomically — one logical topic per commit — by analyzing diffs, proposing groupings, and using line-level staging.",
+  "author": {
+    "name": "Hyonyoung Choi"
+  },
+  "license": "MIT",
+  "keywords": [
+    "git",
+    "commit",
+    "atomic",
+    "staging",
+    "workflow"
+  ]
+}
