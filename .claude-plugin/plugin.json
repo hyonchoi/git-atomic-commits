@@ -5,6 +5,7 @@
   "author": {
     "name": "Hyonyoung Choi"
   },
+  "repository": "https://github.com/hyonchoi/git-atomic-commits",
   "license": "MIT",
   "keywords": [
     "git",
