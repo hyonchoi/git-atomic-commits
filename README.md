@@ -23,7 +23,7 @@ claude plugin install /path/to/git-atomic-commits
 ### From a marketplace or git URL
 
 ```bash
-claude plugin install git+https://github.com/your-username/git-atomic-commits.git
+claude plugin install git+https://github.com/hyonchoi/git-atomic-commits.git
 ```
 
 ## Usage
