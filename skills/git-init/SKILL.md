@@ -1,11 +1,11 @@
 ---
 name: git-init
 description: >
-  Initialize a new project as a git repository with a comprehensive .gitignore and essential project scaffold files.
+  Initialize a new project as a git repository with a comprehensive .gitignore and minimal scaffold files.
 
-  INVOKE THIS SKILL for any request to initialize, set up, or start a new git repository: "init git", "git init", "initialize project", "set up repo", "new project", "start a new project", "bootstrap project", "create a new repo", "init a new project", or any other phrasing that asks to begin a new git-tracked project.
+  INVOKE THIS SKILL for any request to initialize, set up, or start a new git repository: "init git", "git init", "initialize project", "set up repo", "new project", "start a new project", "bootstrap project", "create a new repo", "init a new project", or any phrasing that asks to begin a new git-tracked project.
 
-  Also invoke for: "add .gitignore", "generate gitignore", "set up .gitignore", "create default project files", "scaffold project files", or any other phrasing that asks to create the standard project boilerplate.
+  Also invoke for: "add .gitignore", "generate gitignore", "set up .gitignore", "create default project files", "scaffold project files", or any phrasing that asks to create the standard project boilerplate.
 triggers:
   - git init
   - init git
@@ -17,11 +17,11 @@ triggers:
 
 # Git Init
 
-Initialize a new git repository with a comprehensive .gitignore and essential project files.
+Initialize a new git repository with a comprehensive .gitignore and minimal project scaffold files.
 
 ## Core Principle
 
-Every project should start with a solid foundation: version control, a robust .gitignore covering all platforms and editors, and the standard documentation files that keep a project organized from day one.
+Every project should start with version control, a robust .gitignore, and a README — nothing more. The scaffold is minimal because the project details will emerge as development proceeds. Heavy documentation (ARCHITECTURE.md, PROJECT.md, TODOS.md, etc.) is noise before there's something to document.
 
 ---
 
@@ -29,18 +29,16 @@ Every project should start with a solid foundation: version control, a robust .g
 
 ### Step 1: Confirm the project root
 
-Determine the correct directory to initialize. If the user specified a path, use it. Otherwise, use the current working directory.
+Determine the correct directory. If the user specified a path, use it. Otherwise, use the current working directory.
 
 ```bash
 pwd
-```
-
-Check if the directory already has a `.git` directory:
-```bash
 test -d .git && echo "git repo exists" || echo "not a git repo"
 ```
 
 If it's already a git repo, inform the user and ask whether to proceed with adding missing files and updating .gitignore.
+
+If the directory is not empty, list the existing files and ask whether to proceed anyway or choose a different directory.
 
 ### Step 2: Initialize the repository
 
@@ -48,48 +46,55 @@ If it's already a git repo, inform the user and ask whether to proceed with addi
 git init -b main
 ```
 
-Use `main` as the default branch name. If the user has a different preference, use that instead.
+Use `main` as the default branch. If the user has a different preference, use that instead.
 
-### Step 3: Determine the project framework
+### Step 3: Ask questions — one at a time
 
-Ask the user what kind of project this is so the .gitignore can include framework-specific entries:
+Ask each question individually and wait for the answer before moving on. This keeps the conversation focused and avoids overwhelming the user with a wall of options.
+
+**3a. Project name:**
 
 ```
-What kind of project is this? (Select all that apply)
-
-- Language/Runtime:
-  [ ] Python
-  [ ] Node.js / JavaScript / TypeScript
-  [ ] Java / Kotlin
-  [ ] Go
-  [ ] Rust
-  [ ] Ruby
-  [ ] C / C++
-  [ ] PHP
-  [ ] C# / .NET
-  [ ] Swift
-  [ ] Other (specify)
-
-- Package Manager:
-  [ ] npm / yarn / pnpm / bun
-  [ ] pip / poetry / uv
-  [ ] Cargo
-  [ ] Maven / Gradle
-  [ ] Composer
-  [ ] Go modules
-  [ ] Other (specify)
-
-- Container / Infrastructure:
-  [ ] Docker
-  [ ] Kubernetes
-  [ ] Terraform
+Project name?
 ```
 
-Wait for the user's selections before proceeding.
+**3b. Brief description:**
+
+```
+Brief description (one line)?
+```
+
+**3c. Language / runtime:**
+
+```
+What language or runtime? (e.g. Python, TypeScript, Go, Rust, Java, etc.) — "none" if language-agnostic.
+```
+
+Use the answer to determine which framework-specific .gitignore entries to include. If the user answers a language, follow up with the natural next question for that language (e.g., framework for Node.js/Python, etc.).
+
+**3d. Framework** (if applicable based on language):
+
+```
+Any specific framework? (e.g. Next.js, Django, FastAPI, Spring, etc.) — "none" if not applicable.
+```
+
+**3e. Container / infrastructure** (only if relevant):
+
+```
+Using Docker, Kubernetes, or Terraform? — "none" if not applicable.
+```
+
+**3f. License:**
+
+```
+License? (MIT / Apache-2.0 / GPL-3.0 / BSD-3-Clause / Unlicense / none)
+```
+
+Default to MIT if the user is unsure.
 
 ### Step 4: Generate .gitignore
 
-Create a comprehensive .gitignore with entries organized by category. **Always** include the cross-platform, editor, and IDE sections below regardless of project type. Then append the framework-specific sections based on the user's selections.
+Create a comprehensive .gitignore organized by category. **Always** include the cross-platform and editor sections below regardless of project type. Then append framework-specific sections based on the answers above.
 
 #### Universal section (always included)
 
@@ -116,26 +121,12 @@ com.apple.timemachine.donotcurrent
 .lesshst
 .gdb_history
 .sudo_as_admin_successful
-# IDE-common
-.settings/
-.project
-.classpath
 
 # Windows
 Thumbs.db
-Thumbs.db:encryptable
 ehthumbs.db
-ehthumbs_v100.db
 Desktop.ini
 *$Recycle.Bin*
-*.cab
-*.msi
-*.msix
-*.msm
-*.msp
-*.lnk
-*.pidb
-*.stackdump
 
 # ===========================
 # VS Code
@@ -157,8 +148,6 @@ Desktop.ini
 *.iml
 *.ipr
 out/
-.idea_modules/
-*.sln.iml
 
 # ===========================
 # Cursor
@@ -166,8 +155,6 @@ out/
 .cursor/
 .cursorrules
 .cursorignore
-.cursor-template*
-.cursor-workspace/
 
 # ===========================
 # Claude Code
@@ -184,18 +171,15 @@ out/
 *.bak
 *.swp
 *.swo
-*.swn
 *.cache
 *.pid
-*.seed
-*.orig
 .env
 .env.local
 .env.*.local
 *.env
 ```
 
-#### Framework-specific sections (append based on user selections)
+#### Framework-specific sections (append based on user answers)
 
 **Python:**
 ```gitignore
@@ -213,16 +197,12 @@ build/
 .pytest_cache/
 .coverage
 htmlcov/
-.tox/
 .venv/
 venv/
 env/
 ENV/
-.venv/
 mypy_cache/
-.dmypy.json
 .pyre/
-.pydbschema
 ```
 
 **Node.js / JavaScript / TypeScript:**
@@ -235,16 +215,13 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
 bun.lockb
 dist/
 build/
 .next/
 *.tsbuildinfo
 coverage/
-.nyc_output/
 .eslintcache
-.parcel-cache/
 ```
 
 **Java / Kotlin:**
@@ -255,16 +232,11 @@ coverage/
 target/
 bin/
 obj/
-classes/
 *.class
 *.jar
 *.war
 *.ear
-*.nar
 rebel.xml
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/wrapper/
-!**/src/test/**/wrapper/
 ```
 
 **Go:**
@@ -272,13 +244,10 @@ rebel.xml
 # ===========================
 # Go
 # ===========================
-/go
 *.exe
-*.exe~
 *.test
 *.out
 vendor/
-.gomodcache/
 ```
 
 **Rust:**
@@ -288,11 +257,7 @@ vendor/
 # ===========================
 /target
 **/*.rs.bk
-**/*.rs.bak
-**/*.rbj
 Cargo.lock
-rustfmt.toml
-.rustfmt.toml
 ```
 
 **Ruby:**
@@ -303,14 +268,7 @@ rustfmt.toml
 .bundle/
 Gemfile.lock
 pkg/
-.yardoc/
-.racc/
 coverage/
-/.resultset.json
-/.coverage.*
-/.simplecov
-/coverage/
-stored_responses/
 tmp/
 log/
 ```
@@ -327,27 +285,12 @@ log/
 *.so
 *.so.*
 *.dylib
-*.dylib.*
 *.dll
-*.dll.a
 *.pdb
 *.out
-*.app
-Makefile
-cmake/
+build/
 CMakeFiles/
 CMakeCache.txt
-compile_commands.json
-cmake_install.cmake
-Makefile
-build/
-*.vcxproj
-*.vcxproj.filters
-*.vcxproj.user
-ipch/
-*.sdf
-*.suo
-*.opensdf
 ```
 
 **PHP:**
@@ -357,11 +300,6 @@ ipch/
 # ===========================
 /vendor/
 composer.lock
-*.log
-.phpunit.result.cache
-.php-version
-.phpunit.result.cache
-.cache/
 ```
 
 **C# / .NET:**
@@ -373,15 +311,8 @@ bin/
 obj/
 *.suo
 *.user
-*.userosscache
-*.sln.docstates
 *.nupkg
-*.snupkg
-[pP]ublish*
-appsettings.json
-appsettings.*.json
 packages/
-*.cache
 ```
 
 **Swift:**
@@ -392,14 +323,9 @@ packages/
 build/
 DerivedData/
 *.xcuserdata
-*.xcscmblueprint
 *.xcworkspace/
 !*.xcworkspace/xcshareddata/
-*.xccheckout
-*.moved-aside
 *.xcuserstate
-profile
-*.moved-aside
 ```
 
 **Docker:**
@@ -422,10 +348,6 @@ profile
 *.tfstate*
 *.tfvars
 .terraform.lock.hcl
-override.tf
-override.tf.json
-*_override.tf
-*_override.tf.json
 ```
 
 **Kubernetes:**
@@ -435,101 +357,28 @@ override.tf.json
 # ===========================
 .kube-linter/
 *.kubeconfig*
-.kubectl-backup
 ```
 
-**Package Managers:**
-```gitignore
-# npm / yarn / pnpm / bun
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
-bun.lock
+### Step 5: Create scaffold files
 
-# pip / poetry / uv
-pip-log.txt
-pip-delete-this-directory.txt
-poetry.lock
-uv.lock
-pip-tools.lock
+Create these files with minimal content — just enough to be useful as anchors. The project isn't detailed yet, so don't fill in dummy data that will be wrong until someone comes along and fixes it.
 
-# Maven
-*.iml
-.mvn/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-release.properties
-dependency-reduced-pom.xml
-buildNumber.properties
-.env
+**README.md** — the bare essentials:
 
-# Gradle
-.gradletasknamecache
-.gradle/
-
-# Composer
-composer.phar
-```
-
-### Step 5: Create essential project files
-
-Create the following files with sensible defaults. For each file, ask the user for the project name and a brief description, then generate the content.
-
-**README.md:**
 ```markdown
 # <Project Name>
 
 <Description>
-
-## Getting Started
-
-### Prerequisites
-
-- List prerequisites here
-
-### Installation
-
-```bash
-# Installation instructions here
-```
-
-### Usage
-
-```bash
-# Usage examples here
-```
-
-## Development
-
-### Setup
-
-```bash
-# Development setup instructions
-```
-
-### Testing
-
-```bash
-# Test commands
-```
-
-## Contributing
-
-Please read [CONTRIBUTING](CONTRIBUTING.md) for details on the process for submitting pull requests.
-
-## License
-
-[MIT](LICENSE)
 ```
 
 **VERSION:**
+
 ```text
 0.1.0
 ```
 
-**CHANGELOG.md:**
+**CHANGELOG.md** — header only:
+
 ```markdown
 # Changelog
 
@@ -539,25 +388,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-
-### Added
-- Initial project setup
 ```
 
-**LICENSE:**
-Ask the user which license to use:
-```
-Which license would you like to use?
-1. MIT (Recommended - permissive, widely used)
-2. Apache-2.0 (Patent grant, attribution required)
-3. GPL-3.0 (Copyleft - derivatives must be open source)
-4. BSD-2-Clause (Simple, permissive)
-5. BSD-3-Clause (Non-endorsement clause)
-6. Unlicense (Public domain dedication)
-7. None (I'll add one later)
+**TODOS.md** — header only:
+
+```markdown
+# TODOS
 ```
 
-Use the standard SPDX license text for the chosen license. If MIT is selected, use:
+**ARCHITECTURE.md** — header only:
+
+```markdown
+# Architecture
+```
+
+**PROJECT.md** — just what's known from the questions:
+
+```markdown
+# Project
+
+- **Name:** <name>
+- **Description:** <description>
+- **Language:** <language>
+- **License:** <license>
+```
+
+Fill in only the fields the user answered; omit a line if the answer was "none" or unclear.
+
+**LICENSE** — the standard SPDX text for the chosen license. If MIT is selected:
+
 ```text
 MIT License
 
@@ -582,127 +441,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-**TODOS.md:**
-```markdown
-# TODOS
-
-## High Priority
-
-- [ ] Define project scope and goals
-- [ ] Set up CI/CD pipeline
-- [ ] Add project dependencies
-
-## Medium Priority
-
-- [ ] Write initial tests
-- [ ] Add documentation
-- [ ] Set up logging and monitoring
-
-## Low Priority
-
-- [ ] Performance profiling
-- [ ] Code coverage targets
-- [ ] Internationalization support
-```
-
-**ARCHITECTURE.md:**
-```markdown
-# Architecture
-
-## Overview
-
-<A brief description of the project architecture>
-
-## Directory Structure
-
-```
-<project-root>/
-├── src/          # Source code
-├── tests/        # Test files
-├── docs/         # Documentation
-├── scripts/      # Build/utility scripts
-├── config/       # Configuration files
-├── README.md
-├── CHANGELOG.md
-├── VERSION
-└── ARCHITECTURE.md
-```
-
-## Key Components
-
-- **Component 1**: <Description>
-- **Component 2**: <Description>
-
-## Data Flow
-
-<A brief description of how data flows through the system>
-
-## Design Decisions
-
-| Decision | Rationale |
-|----------|-----------|
-| <Decision> | <Reason> |
-
-## Dependencies
-
-- List major dependencies and their purpose
-```
-
-**PROJECT.md:**
-```markdown
-# Project
-
-## Name
-
-<Project name>
-
-## Description
-
-<Brief description of what the project does>
-
-## Goals
-
-- <Goal 1>
-- <Goal 2>
-- <Goal 3>
-
-## Non-Goals
-
-- <Things this project explicitly will not do>
-
-## Tech Stack
-
-- <Language/Runtime>
-- <Framework>
-- <Database>
-- <Infrastructure>
-
-## Team
-
-- <Owner/maintainer>
-
-## Communication
-
-- Issues: <GitHub Issues or other tracker>
-- Discussion: <Slack/Discord/etc.>
-
-## Links
-
-- Repository: <URL>
-- Documentation: <URL>
-- Deployment: <URL>
-```
+Use the user's gitconfig name for the author. If no license was selected, skip this file.
 
 ### Step 6: Initial commit
 
-Stage all files and create the initial commit:
-
 ```bash
 git add .
-git commit -m "chore: initialize project with scaffold"
+git commit -m "chore: initialize project"
 ```
 
-Show the user a summary of what was created:
+Show the user a brief summary:
 
 ```
 Project initialized!
@@ -715,44 +463,31 @@ Files created:
   - README.md
   - VERSION
   - CHANGELOG.md
-  - LICENSE
   - TODOS.md
   - ARCHITECTURE.md
   - PROJECT.md
+  - LICENSE          (if applicable)
 
-Commit: chore: initialize project with scaffold
+Commit: chore: initialize project
 ```
 
 ---
 
 ## Edge Cases
 
-**Directory already contains files:**
-Inform the user that the directory is not empty. List the existing files and ask whether to proceed with initialization anyway or choose a different directory.
+**Existing .gitignore:** Offer to merge new entries rather than overwrite. Append missing categories below a `# --- existing content above ---` separator.
 
-**~/.gitconfig missing:**
-If `git config --global user.name` or `git config --global user.email` returns empty, prompt the user to set them up first:
-```bash
-git config --global user.name "Your Name"
-git config --global user.email "you@example.com"
-```
+**User wants more files:** If the user asks for CHANGELOG, TODOS, or similar, create them on request — but keep the content minimal.
 
-**Existing .gitignore:**
-If a .gitignore already exists, offer to merge the new entries with the existing one rather than overwriting it. Append missing categories and prepend `# --- existing content above ---` as a separator.
+**~/.gitconfig missing:** If `git config --global user.name` or `git config --global user.email` returns empty, prompt the user to set them up before committing.
 
-**User selects "None" for framework:**
-Generate a .gitignore with only the universal sections (macOS/Linux/Windows/VSCode/JetBrains/Cursor/General).
+**User skips questions:** If the user wants a bare minimum ("just git init"), create only .gitignore with universal entries and commit.
 
-**User declines certain default files:**
-If the user explicitly asks not to create certain files (e.g., "skip LICENSE" or "don't create PROJECT.md"), honor that and skip them.
-
-**Shallow or bare repos:**
-If `git init` is run inside a shallow clone or the user requests `--bare`, skip the file creation step and only initialize the repo.
+**Shallow or bare repos:** If `--bare` is requested, skip file creation and only initialize the repo.
 
 ---
 
 ## Tips
 
-- Always show the user the generated .gitignore before writing it so they can verify the entries are appropriate.
-- When generating project files, use information from the user's `~/.gitconfig` (name, email) if available to pre-fill author fields.
-- For monorepo setups, mention that the .gitignore covers the root and suggest creating workspace-specific entries in sub-projects.
+- Use the user's `~/.gitconfig` (name, email) to pre-fill the LICENSE author and to skip the gitconfig edge-case prompt.
+- Always show the .gitignore before writing it if it's complex (many framework sections).
