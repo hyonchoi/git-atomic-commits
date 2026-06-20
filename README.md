@@ -29,17 +29,18 @@ When you ask Claude to commit, this skill:
 
 ## Installation
 
+### From the hyonchoi-plugins marketplace
+
+```bash
+claude plugin marketplace add hyonchoi/claude-plugins
+claude plugin install git-atomic-commits@hyonchoi-plugins
+```
+
 ### From source (local development)
 
 ```bash
-# Install as a local project plugin
-claude plugin install /path/to/git-atomic-commits
-```
-
-### From a marketplace or git URL
-
-```bash
-claude plugin install git+https://github.com/hyonchoi/git-atomic-commits.git
+claude plugin marketplace add --scope local /path/to/git-atomic-commits
+claude plugin install git-atomic-commits@hyonchoi-plugins
 ```
 
 ## Usage
