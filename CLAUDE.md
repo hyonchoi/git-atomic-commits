@@ -18,7 +18,7 @@ Each skill lives at `skills/<skill-name>/SKILL.md` and has YAML frontmatter (`na
 ## Plugin Manifests
 
 - **`.claude-plugin/plugin.json`** — Claude Code manifest. Includes `"skills": "./skills/"` to register the skills directory.
-- **`.codex-plugin/plugin.json`** — Codex CLI manifest. Same metadata, no `skills` field (Codex reads skills differently).
+- **`.codex-plugin/plugin.json`** — Codex CLI manifest. Includes `"skills": "./skills/"` to register the skills directory and `interface` metadata for Codex presentation.
 
 When adding a new skill, create `skills/<name>/SKILL.md` and ensure both manifests are up to date.
 
