@@ -1,7 +1,7 @@
 {
   "name": "git-atomic-commits",
-  "version": "1.0.2",
-  "description": "Stage and commit git changes atomically — one logical topic per commit — by analyzing diffs, proposing groupings, and using line-level staging. MUST be invoked for ANY commit request: 'commit', 'commit changes', 'commit this', 'git commit', 'stage changes', 'split commits', 'atomic commits', 'clean up commits', or any phrasing that asks for changes to be committed or staged. Also includes project initialization for 'git init', 'new project', 'init repo', 'bootstrap project'. Always use this plugin instead of running git commit directly.",
+  "version": "1.0.3",
+  "description": "Invoke 'git-atomic-commits' for ANY commit request: commit, commit changes, git commit, stage changes, split commits. Invoke 'git-init' for new projects: git init, init repo, bootstrap project.",
   "author": {
     "name": "Hyonyoung Choi"
   },
