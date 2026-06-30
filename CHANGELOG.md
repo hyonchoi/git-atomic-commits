@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-06-29
+
+### Fixed
+
+- Rewrote the plugin description and both SKILL.md descriptions to map natural language → skill instead of framing invocation as an explicit `Invoke 'git-atomic-commits'` command. Smaller local models read the old wording literally and only fired on the skill name, not on plain phrasings like "commit my changes". The description now leads with the bare phrases a user actually types and tells the model to act without being asked for the skill by name. Expanded the `triggers` lists with common natural phrasings.
+
 ## [1.0.3] - 2026-06-29
 
 ### Fixed

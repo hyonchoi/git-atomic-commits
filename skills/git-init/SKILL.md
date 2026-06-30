@@ -1,11 +1,11 @@
 ---
 name: git-init
 description: >
-  Initialize a new project as a git repository with a comprehensive .gitignore and minimal scaffold files.
+  Use this skill whenever the user wants to start, initialize, or bootstrap a new git repository — including plain, natural-language requests that never name the skill. Trigger on phrasings like "git init", "init git", "initialize project", "set up a repo", "new project", "start a new project", "bootstrap project", "create a new repo", "init a new project", or any phrasing that asks to begin a new git-tracked project. Do not wait to be asked for the skill by name.
 
-  INVOKE THIS SKILL for any request to initialize, set up, or start a new git repository: "init git", "git init", "initialize project", "set up repo", "new project", "start a new project", "bootstrap project", "create a new repo", "init a new project", or any phrasing that asks to begin a new git-tracked project.
+  Also use it for: "add .gitignore", "generate gitignore", "set up .gitignore", "create default project files", or "scaffold project files".
 
-  Also invoke for: "add .gitignore", "generate gitignore", "set up .gitignore", "create default project files", "scaffold project files", or any phrasing that asks to create the standard project boilerplate.
+  What it does: it runs git init, writes a comprehensive .gitignore, and creates minimal scaffold files (README, etc.).
 triggers:
   - git init
   - init git

@@ -1,20 +1,23 @@
 ---
 name: git-atomic-commits
 description: >
-  Stage and commit git changes atomically — one logical topic per commit — by analyzing a dirty working tree, proposing groupings, and using line-level staging to separate changes that belong to different topics even within the same file.
+  Use this skill whenever the user wants to commit or stage changes — including plain, natural-language requests that never name the skill. Trigger on phrasings like "commit", "commit my changes", "commit this", "commit it", "make a commit", "git commit", "please commit", "go ahead and commit", "save my changes", "stage changes", "stage my changes", "split these commits", "clean up my commits", "organize my commits", "atomic commits", or "I have a bunch of changes, can you commit them properly". Short bare requests like "commit changes" are the most common trigger — do not miss them, and do not wait to be asked for the skill by name.
 
-  INVOKE THIS SKILL for ANY commit request, no matter how short or simple: "commit", "commit changes", "commit this", "commit it", "make a commit", "git commit", "please commit", "go ahead and commit", "commit the changes", or any other phrasing that asks for a commit to be created. Short bare requests like "commit changes" are the most common trigger — do not miss them.
-
-  Also invoke for: "stage changes", "clean up commits", "atomic commits", "split commits", "organize my commits", "I have a bunch of changes and want to commit them properly", or "help me stage my changes".
+  What it does: it groups a dirty working tree into clean, single-topic commits — one logical topic per commit — by analyzing the changes, proposing groupings, and using line-level staging to separate changes that belong to different topics even within the same file.
 
   This skill must be used for every commit operation — never run git commit directly without going through this skill's propose-then-stage workflow.
 triggers:
   - commit
   - commit changes
+  - commit my changes
+  - commit this
   - git commit
+  - save my changes
   - stage changes
+  - stage my changes
   - atomic commits
   - split commits
+  - clean up my commits
 ---
 
 # Git Atomic Commits

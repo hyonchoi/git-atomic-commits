@@ -1,7 +1,7 @@
 {
   "name": "git-atomic-commits",
-  "version": "1.0.3",
-  "description": "Invoke 'git-atomic-commits' for ANY commit request: commit, commit changes, git commit, stage changes, split commits. Invoke 'git-init' for new projects: git init, init repo, bootstrap project.",
+  "version": "1.0.4",
+  "description": "Use the git-atomic-commits skill whenever the user wants to commit or stage work — natural phrasings count, even short bare ones: 'commit', 'commit my changes', 'commit this', 'git commit', 'save my changes', 'stage changes', 'split these commits', 'clean up my commits'. Do this WITHOUT being asked for the skill by name. It groups a dirty working tree into clean single-topic commits. Use the git-init skill whenever the user wants to start, initialize, or bootstrap a new git repo or add a .gitignore: 'git init', 'new project', 'set up a repo', 'bootstrap project'.",
   "author": {
     "name": "Hyonyoung Choi"
   },
